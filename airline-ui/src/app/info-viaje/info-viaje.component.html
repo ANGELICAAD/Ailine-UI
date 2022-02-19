@@ -1,0 +1,70 @@
+<div class="header">
+    <div class="container">
+        <div class="row align-items-start">
+            <div class="col">
+                <div class="airplane-image">
+                    <svg id="airplane" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plane"
+                        width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M16 10h4a2 2 0 0 1 0 4h-4l-4 7h-3l2 -7h-4l-2 2h-3l2 -4l-2 -4h3l2 2h4l-2 -7h3z" />
+                    </svg>
+                </div>
+                <label id="text-label">Vuelos</label>
+            </div>
+        </div>
+    </div>
+    <div class="info-flight">
+        <div class="container">
+            <div class="row align-items-start">
+                <div class="col">
+                    <h3>Encuentra tu próximo viaje</h3>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row align-items-start" id="check-radios">
+                <div class="col">
+                    <div class="form-check-inline">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                        <label class="form-check-label" for="flexRadioDefault1">
+                            Ida y regreso
+                        </label>
+                    </div>
+                    <div class="form-check-inline">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                        <label class="form-check-label" for="flexRadioDefault1">
+                            Solo ida
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-6 col-sm-3">
+                    <div class="form-floating mb-3">
+                        <select class="form-select" aria-label="Default select example" [(ngModel)]="selectedOrigin"
+                            (change)="onSelectedOrigin($event)" (change)="getAllDestinations()">
+                            <option selected>Seleccionar una ciudad</option>
+                            <option *ngFor="let originCity of allOriginCities">
+                                {{originCity}}
+                            </option>
+                        </select>
+                        <label for="floatingInput">Ciudad Origen</label>
+                    </div>
+                </div>
+                <div class="col-6 col-sm-3">
+                    <div class="form-floating mb-3">
+                        <select class="form-select" aria-label="Default select example"
+                            [(ngModel)]="selectedDestination" (change)="onSelecteddestination($event)">
+                            <option selected>Seleccionar una ciudad</option>
+                            <option *ngFor="let destionationCity of allDestinationCities">
+                                {{destionationCity}}
+                            </option>
+                        </select>
+                        <label for="floatingInput">Ciudad Destino</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
