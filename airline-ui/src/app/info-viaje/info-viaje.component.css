@@ -18,3 +18,22 @@ label#text-label {
     margin-top: 10px;
     margin-bottom: 20px;
 }
+
+#help-message {
+    font-size: 13px;
+    opacity: 0.7;
+}
+
+#btnPassengers {
+    margin-bottom: 17px;
+}
+
+#calendar-image {
+    width: 20px;
+    height: 20px;
+    margin-bottom: 3px;
+}
+
+#btnSearch {
+    margin-top: 23px;
+}
