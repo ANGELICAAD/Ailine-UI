@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 
 import { InfoViajeComponent } from './info-viaje/info-viaje.component';
 import { InfoVuelosComponent } from './info-vuelos/info-vuelos.component';
+import { InfoPasajerosComponent } from './info-pasajeros/info-pasajeros.component';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
@@ -16,7 +17,8 @@ import { FormsModule } from '@angular/forms';
   declarations: [
     AppComponent,
     InfoViajeComponent,
-    InfoVuelosComponent
+    InfoVuelosComponent,
+    InfoPasajerosComponent
   ],
   // Librerías
   imports: [
