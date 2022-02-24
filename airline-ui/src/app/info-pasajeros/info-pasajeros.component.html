@@ -1,0 +1,68 @@
+<button type="button" class="btn btn-primary" (click)="openInfoPassengers(infopassengers)"
+    (click)="getVisaRequired()">Continuar</button>
+<div class="container-pasenger">
+    <ng-template #infopassengers let-modal>
+        <div class="modal-header">
+            <h4>Información de pasajeros</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <h5>Ingresar información de pasajeros</h5>
+            <div class="infPassenger">
+                <form>
+                    <div class="mb-3">
+                        <label class="form-label">Tipo Pasajero</label>
+                        <div class="form-floating mb-3">
+                            <select class="form-select" aria-label="Default select example"
+                                (change)="selectedTypePassenger($event)">
+                                <option selected>Seleccionar un tipo</option>
+                                <option *ngFor="let type of allTypePassengers">
+                                    {{type}}
+                                </option>
+                            </select>
+                            <label for="floatingInput">Tipo pasajero</label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Nombre</label>
+                        <input id="name" type="text" class="form-control" placeholder="Nombre">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Apellido</label>
+                        <input id="lastName" type="text" class="form-control" placeholder="Apellido">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Documento/Cédula</label>
+                        <input id="document" type="text" class="form-control" placeholder="Cédula">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Edad</label>
+                        <input id="age" type="text" class="form-control" placeholder="Edad">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Correo Electrónico</label>
+                        <input id="email" type="text" class="form-control" placeholder="Correo electrónico">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Teléfono</label>
+                        <input id="phone" type="text" class="form-control" placeholder="Teléfono">
+                    </div>
+                    <div class="expirationVisa" *ngIf="expirationVisa">
+                        <div class="mb-3">
+                            <label class="form-label">Fecha de Expiración de Visa</label>
+                            <input type="date" [(ngModel)]="visaExpirationDate" class="form-control"
+                                placeholder="Fecha de expiración de Visa">
+                            <!-- <input id="visaExpirationDate" type="text" class="form-control"
+                                placeholder="Fecha de expiración de Visa"> -->
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-success" (click)="modal.close()"
+                (click)="savePassengerList()">Continuar</button>
+            <button type="button" class="btn btn-danger" (click)="modal.close()">Cancelar</button>
+        </div>
+    </ng-template>
+</div>
