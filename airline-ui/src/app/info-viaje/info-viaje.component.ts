@@ -31,6 +31,7 @@ export class InfoViajeComponent implements OnInit {
   @Output() DepartureFlights: EventEmitter<any> = new EventEmitter();
   public allReturnFlights: any[] = []
   @Output() ReturnFlights: EventEmitter<any> = new EventEmitter();
+  @Output() CityDestination: EventEmitter<any> = new EventEmitter();
 
   constructor(
     public modal: NgbModal,
@@ -62,6 +63,7 @@ export class InfoViajeComponent implements OnInit {
   // Obtiene el valor (ciudad de destino) seleccionada en el selected
   onSelecteddestination(e: any) {
     this.selectedDestination = e.target.value;
+    this.CityDestination.emit({data:this.selectedDestination})
   }
 
   // Permite que el modal se abra o se muestre en pantalla

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
+import { EventEmitter } from '@angular/core';
 
 import { InfoViajeComponent } from '../info-viaje/info-viaje.component';
 
@@ -16,6 +17,8 @@ export class InfoVuelosComponent implements OnInit {
   public paymentTotal: number = 0
   public paymentDepartureTicket: number = 0
   public paymentReturnTicket: number = 0
+  public cityDestination: string = ""
+  @Output() CityDestination: EventEmitter<any> = new EventEmitter();
   
   constructor(
     private infoViaje: InfoViajeComponent
@@ -42,6 +45,12 @@ export class InfoVuelosComponent implements OnInit {
     this.infoViaje.ReturnFlights.subscribe(result => {
       this.allReturnFlights = result.data;
       // console.log(this.allReturnFlights); 
+    })
+
+    this.infoViaje.CityDestination.subscribe(result => {
+      this.cityDestination = result.data;
+      // console.log(this.cityDestination);      
+      this.CityDestination.emit({data:this.cityDestination})
     })
   }
 

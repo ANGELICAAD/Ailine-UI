@@ -29,5 +29,10 @@ export class PassengerService {
     const path = `http://localhost:8080/api/passenger/${idPassenger}`;
     return this.http.get<Passenger>(path);
   }
+
+  getFindPassengerByDocument(document: string) {
+    const path = `http://localhost:8080/api/passenger/buscar/${document}`;
+    return this.http.get<Passenger>(path);
+  }
 }
  
