@@ -17,4 +17,9 @@ export class FlightService {
     const path = `http://localhost:8080/api/flight/${originCity}&&${destinationCity}&&${numberPassenger}&&selectedDate?flightDate=${flightDate}`;
     return this.http.get<Flight[]>(path);
   }
+
+  getFlight(idflight: number) {
+    const path = `http://localhost:8080/api/flight/search/${idflight}`;
+    return this.http.get<Flight[]>(path);
+  }
 }

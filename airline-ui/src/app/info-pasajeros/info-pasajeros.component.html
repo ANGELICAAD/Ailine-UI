@@ -1,6 +1,11 @@
-<button type="button" class="btn btn-primary" (click)="openInfoPassengers(infopassengers)"
-    (click)="getVisaRequired()">Continuar</button>
 <div class="container-pasenger">
+    <div class="docPassenger">
+        <div class="mb-3">
+            <label class="form-label">Documento/Cédula</label>
+            <input id="document" type="text" class="form-control" placeholder="Cédula">
+        </div>
+        <button type="button" class="btn btn-outline-secondary" (click)="getVisaRequired()" (click)="activatedBtn()">Siguiente</button>
+    </div>
     <ng-template #infopassengers let-modal>
         <div class="modal-header">
             <h4>Información de pasajeros</h4>
@@ -11,29 +16,33 @@
             <div class="infPassenger">
                 <form>
                     <div class="mb-3">
-                        <label class="form-label">Tipo Pasajero</label>
-                        <div class="form-floating mb-3">
-                            <select class="form-select" aria-label="Default select example"
-                                (change)="selectedTypePassenger($event)">
-                                <option selected>Seleccionar un tipo</option>
-                                <option *ngFor="let type of allTypePassengers">
-                                    {{type}}
-                                </option>
-                            </select>
-                            <label for="floatingInput">Tipo pasajero</label>
-                        </div>
+                        <label class="form-label">Información de millas</label>
+                        <textarea id="miles" class="form-control" id="exampleFormControlTextarea1" rows="3"
+                            placeholder="Millas" value="{{messageMiles}}"></textarea>
                     </div>
-                    <div class="mb-3">
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-success" (click)="modal.close()">Continuar</button>
+        </div>
+    </ng-template>
+    <ng-template #infosavepassengers let-modal>
+        <div class="modal-header">
+            <h4>Información de pasajeros</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <h5>Ingresar información de pasajeros</h5>
+            <div class="infPassenger">
+                <form>
+                    <div class="mb-3" id="name-modal">
                         <label class="form-label">Nombre</label>
                         <input id="name" type="text" class="form-control" placeholder="Nombre">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Apellido</label>
                         <input id="lastName" type="text" class="form-control" placeholder="Apellido">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Documento/Cédula</label>
-                        <input id="document" type="text" class="form-control" placeholder="Cédula">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Edad</label>
@@ -47,13 +56,26 @@
                         <label class="form-label">Teléfono</label>
                         <input id="phone" type="text" class="form-control" placeholder="Teléfono">
                     </div>
-                    <div class="expirationVisa" *ngIf="expirationVisa">
-                        <div class="mb-3">
-                            <label class="form-label">Fecha de Expiración de Visa</label>
-                            <input type="date" [(ngModel)]="visaExpirationDate" class="form-control"
-                                placeholder="Fecha de expiración de Visa">
-                            <!-- <input id="visaExpirationDate" type="text" class="form-control"
-                                placeholder="Fecha de expiración de Visa"> -->
+                    <div class="mb-3">
+                        <label class="form-label">Tipo Pasajero</label>
+                        <div class="form-floating mb-3">
+                            <select class="form-select" aria-label="Default select example"
+                                (change)="selectedTypePassenger($event)">
+                                <option selected>Seleccionar un tipo</option>
+                                <option *ngFor="let type of allTypePassengers">
+                                    {{type}}
+                                </option>
+                            </select>
+                            <label for="floatingInput">Tipo pasajero</label>
+                        </div>
+                    </div>
+                    <div class="active">
+                        <div class="expirationVisa" *ngIf="expirationVisa">
+                            <div class="mb-3">
+                                <label class="form-label">Fecha de Expiración de Visa</label>
+                                <input type="date" [(ngModel)]="visaExpirationDate" class="form-control"
+                                    placeholder="Fecha de expiración de Visa">
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -61,8 +83,34 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-success" (click)="modal.close()"
-                (click)="savePassengerList()">Continuar</button>
+                (click)="savePassenger()">Continuar</button>
             <button type="button" class="btn btn-danger" (click)="modal.close()">Cancelar</button>
         </div>
     </ng-template>
 </div>
+<div class="container" id="container-payment">
+    <div class="row align-items-start">
+        <div class="col-md-4">
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="discountTicket">Total a pagar</span>
+                <input type="text" class="form-control" value="$ {{ discountTotalTicket }}" aria-label="Total a pagar"
+                    aria-describedby="basic-addon1">
+            </div>
+        </div>
+        <div class="col-6 col-sm-3">
+            <button type="button" class="btn btn-primary" id="btnTotalPayment" (click)="saveReserve()"
+                (click)="saveTicket()">Pagar</button>
+        </div>
+    </div>
+    <div class="row align-items-start">
+        <div class="col-md-4">
+            <button type="button" class="btn btn-success" id="btnConfirm" (click)="showReservationInfo()">Confirmar
+                reserva</button>
+        </div>
+        <div class="col-6 col-sm-3">
+            <label class="form-label">Número de reserva</label>
+            <input type="text" class="form-control" value="{{ reservationNumber }}">
+        </div>
+    </div>
+</div>
+<app-info-reservas></app-info-reservas>

@@ -5,4 +5,5 @@ export interface Reserve {
     state: string;
     departureFlight: Flight;
     returnFlight: Flight;
+    flightType: string;
 }

@@ -1,6 +1,5 @@
 import { Component, OnInit, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-// import { NgModel } from '@angular/forms';
 import { EventEmitter } from '@angular/core';
 
 import { RouteService } from '../services/route.service';
@@ -23,10 +22,10 @@ export class InfoViajeComponent implements OnInit {
   public passengerNumber: number = 0
   departureDate: Date = new Date()
   returnDate: Date = new Date()
-  // public allFlights: any[] = []
-  // @Output() Flights: EventEmitter<any> = new EventEmitter();
   public departureReturnFlight: boolean = false
+  @Output() DepartureReturnFlight: EventEmitter<any> = new EventEmitter();
   public departureFlight: boolean = false
+  @Output() DepartureFlight: EventEmitter<any> = new EventEmitter();
   public allDepartureFlights: any[] = []
   @Output() DepartureFlights: EventEmitter<any> = new EventEmitter();
   public allReturnFlights: any[] = []
@@ -79,15 +78,6 @@ export class InfoViajeComponent implements OnInit {
     this.passengerNumber = this.adultNumber + this.childNumber + this.infantNumber;
   }
 
-  // Obtiene la lista de los vuelos disponibles
-  // async getAllflight() {
-  //   await this.flightService.getAllflight(this.selectedOrigin, this.selectedDestination, this.passengerNumber, this.departureDate)
-  //     .subscribe(flights => {
-  //       this.allFlights = flights;
-  //       this.Flights.emit({data:this.allFlights})
-  //     })
-  // }
-
   // Capturar radio para tipo de fecha a mostrar
   selectedFlight() {
     this.departureReturnFlight = (document.getElementById("departureReturnFlight") as HTMLInputElement).checked;
@@ -113,7 +103,7 @@ export class InfoViajeComponent implements OnInit {
   }
 
   // Obtiene la lista de los vuelos dependiendo si se trata de un vuelo de ida y regreso o solo de ida
-  getTypeAllFliths() {
+  getTypeAllFliths() {  
     if(this.departureReturnFlight == true) {
       this.getAllDepartureFlight()
       this.getAllReturnFlight()
@@ -122,5 +112,8 @@ export class InfoViajeComponent implements OnInit {
         this.getAllDepartureFlight();
       }
     }
+
+    this.DepartureReturnFlight.emit({data:this.departureReturnFlight})
+    this.DepartureFlight.emit({data:this.departureFlight})
   }
 }

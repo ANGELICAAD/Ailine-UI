@@ -13,8 +13,8 @@ export class TicketService {
   ) { }
 
   // Método que permite validar el descuento total a efectuar en un tiquete
-  getValidateDiscounts(idPassenger: number, departureDate: Date, returnDate: Date) {
-    const path = `http://localhost:8080/api/ticket/?idPassenger=${idPassenger}&departureDate=${departureDate}&returnDate=${returnDate}`;
+  getValidateDiscounts(idPassenger: number) {
+    const path = `http://localhost:8080/api/ticket/?idPassenger=${idPassenger}`;
     return this.http.get<number>(path);
   }
 
@@ -22,5 +22,17 @@ export class TicketService {
   createTicket(ticket: Ticket) {
     const path = 'http://localhost:8080/api/ticket';
     return this.http.post(path, ticket);
+  }
+
+  // Método que permite buscar el id de la última reserva
+  getLastReservation(idPassenger: number) {
+    const path = `http://localhost:8080/api/ticket/lastReservation/${idPassenger}`;
+    return this.http.get<number>(path);
+  }
+
+  // Método que permite buscar el id de la penúltima reserva
+  getPenultimateReservation(idPassenger: number) {
+    const path = `http://localhost:8080/api/ticket/penultimateReservation/${idPassenger}`;
+    return this.http.get<number>(path);
   }
 }

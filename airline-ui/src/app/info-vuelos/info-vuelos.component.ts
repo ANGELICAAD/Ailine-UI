@@ -10,25 +10,27 @@ import { InfoViajeComponent } from '../info-viaje/info-viaje.component';
 })
 export class InfoVuelosComponent implements OnInit {
 
-  // public allFlights: any[] = []
   public allDepartureFlights: any[] = []
   public allReturnFlights: any[] = []
   public selectedFlights: any[] = []
+  @Output() SelectedFlights: EventEmitter<any> = new EventEmitter();
   public paymentTotal: number = 0
   public paymentDepartureTicket: number = 0
+  @Output() PaymentDepartureTicket: EventEmitter<any> = new EventEmitter();
   public paymentReturnTicket: number = 0
+  @Output() PaymentReturnTicket: EventEmitter<any> = new EventEmitter();
   public cityDestination: string = ""
   @Output() CityDestination: EventEmitter<any> = new EventEmitter();
+  public departureReturnFlight: boolean = false
+  @Output() DepartureReturnFlight: EventEmitter<any> = new EventEmitter();
+  public departureFlight: boolean = false
+  @Output() DepartureFlight: EventEmitter<any> = new EventEmitter();
   
   constructor(
     private infoViaje: InfoViajeComponent
   ) { }
 
   ngOnInit(): void {
-    // this.infoViaje.Flights.subscribe(result => {
-    //   this.allFlights = result.data;
-    //   console.log(this.allFlights);       
-    // })
     
     this.getLists();
   }
@@ -37,41 +39,44 @@ export class InfoVuelosComponent implements OnInit {
   getLists() {
     // Lista de vuelos de ida
     this.infoViaje.DepartureFlights.subscribe(result => {
-      this.allDepartureFlights = result.data;
-      // console.log(this.allDepartureFlights);    
+      this.allDepartureFlights = result.data;  
     })
 
     // Lista de vuelos de regreso
     this.infoViaje.ReturnFlights.subscribe(result => {
       this.allReturnFlights = result.data;
-      // console.log(this.allReturnFlights); 
     })
 
     this.infoViaje.CityDestination.subscribe(result => {
-      this.cityDestination = result.data;
-      // console.log(this.cityDestination);      
+      this.cityDestination = result.data;     
       this.CityDestination.emit({data:this.cityDestination})
+    })
+
+    this.infoViaje.DepartureReturnFlight.subscribe(result => {
+      this.departureReturnFlight = result.data;
+    })
+
+    this.infoViaje.DepartureFlight.subscribe(result => {
+      this.departureFlight = result.data;
     })
   }
 
   // Permite seleccionar un vuelo de ida
   selectedRowDeparture(flight: any) { 
     this.paymentDepartureTicket = flight[3];
+    this.PaymentDepartureTicket.emit({data:this.paymentDepartureTicket})
     this.selectedFlights.push(flight);
-    // console.log(flight[0]);   
-    // console.log(this.selectedFlights);
-    // console.log(this.selectedFlights[0]);
     this.calculateTotal(flight);
+    this.SelectedFlights.emit({data:this.selectedFlights})
   }
 
   // Permite seleccionar un vuelo de regreso
   selectedRowReturn(flight: any) {
     this.paymentReturnTicket = flight[3];
+    this.PaymentReturnTicket.emit({data:this.paymentReturnTicket})
     this.selectedFlights.push(flight);
-    // console.log(flight[0]);   
-    // console.log(this.selectedFlights);
-    // console.log(this.selectedFlights[0]);
     this.calculateTotal(flight);
+    this.SelectedFlights.emit({data:this.selectedFlights})
   }
 
   // Método que permite calcular el total de pago del vuelo

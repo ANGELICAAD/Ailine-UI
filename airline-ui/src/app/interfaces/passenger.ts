@@ -1,5 +1,5 @@
 export interface Passenger {
-    idpassenger: number;
+    idPassenger: number;
     document: string;
     name: string;
     lastName: string;
