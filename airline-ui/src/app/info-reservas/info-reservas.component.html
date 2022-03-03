@@ -1,0 +1,39 @@
+<div class="reservation">
+    <h2>Lista de reservas</h2>
+    <div class="table-responsive">
+        <table class="table" *ngIf="showReservations">
+            <thead>
+                <tr>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Ciudad Origen</th>
+                    <th scope="col">Ciudad Destino</th>
+                    <th scope="col">Fecha Ida</th>
+                    <th scope="col">Ruta Ida</th>
+                    <th scope="col">Fecha Regreso</th>
+                    <th scope="col">Ruta Regreso</th>
+                    <th scope="col">ID Pasajero</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Apellido</th>
+                    <th scope="col">Documento</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let reserve of allReservations">
+                    <tr>
+                        <td>{{ reserve[0] }}</td>
+                        <td>{{ reserve[1] }}</td>
+                        <td>{{ reserve[2] }}</td>
+                        <td>{{ reserve[3] }}</td>
+                        <td>{{ reserve[4] }}</td>
+                        <td>{{ reserve[5] }}</td>
+                        <td>{{ reserve[6] }}</td>
+                        <td>{{ reserve[7] }}</td>
+                        <td>{{ reserve[8] }}</td>
+                        <td>{{ reserve[9] }}</td>
+                        <td>{{ reserve[10] }}</td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
+    </div>
+</div>

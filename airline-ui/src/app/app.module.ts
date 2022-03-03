@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { InfoViajeComponent } from './info-viaje/info-viaje.component';
 import { InfoVuelosComponent } from './info-vuelos/info-vuelos.component';
 import { InfoPasajerosComponent } from './info-pasajeros/info-pasajeros.component';
+import { InfoReservasComponent } from './info-reservas/info-reservas.component';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
@@ -18,7 +19,8 @@ import { FormsModule } from '@angular/forms';
     AppComponent,
     InfoViajeComponent,
     InfoVuelosComponent,
-    InfoPasajerosComponent
+    InfoPasajerosComponent,
+    InfoReservasComponent
   ],
   // Librerías
   imports: [
