@@ -1,0 +1,137 @@
+<div class="header">
+    <div class="container">
+        <div class="row align-items-start">
+            <div class="col">
+                <div class="airplane-image">
+                    <svg id="airplane" xmlns="http://www.w3.org/4000/svg" class="icon icon-tabler icon-tabler-plane"
+                        width="44" height="44" viewBox="0 0 44 44" stroke-width="1.5" stroke="#4c3e50" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h44v44H0z" fill="none" />
+                        <path d="M16 10h4a4 4 0 0 1 0 4h-4l-4 7h-3l4 -7h-4l-4 4h-3l4 -4l-4 -4h3l4 4h4l-4 -7h3z" />
+                    </svg>
+                </div>
+                <label id="text-label">Vuelos</label>
+            </div>
+        </div>
+    </div>
+    <div class="info-flight">
+        <div class="container">
+            <div class="row align-items-start">
+                <div class="col">
+                    <h3>Encuentra tu próximo viaje</h3>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row align-items-start" id="check-radios">
+                <div class="col" (click)="selectedFlight()">
+                    <div class="form-check-inline">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="departureReturnFlight">
+                        <label class="form-check-label" for="flexRadioDefault1">
+                            Ida y regreso
+                        </label>
+                    </div>
+                    <div class="form-check-inline">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="departureFlight"
+                            value="departureFlight">
+                        <label class="form-check-label" for="flexRadioDefault1">
+                            Solo ida
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-6 col-sm-3">
+                    <div class="form-floating mb-3">
+                        <select class="form-select" aria-label="Default select example" [(ngModel)]="selectedOrigin"
+                            (change)="onSelectedOrigin($event)" (change)="getAllDestinations()">
+                            <option selected>Seleccionar una ciudad</option>
+                            <option *ngFor="let originCity of allOriginCities">
+                                {{originCity}}
+                            </option>
+                        </select>
+                        <label for="floatingInput">Ciudad Origen</label>
+                    </div>
+                </div>
+                <div class="col-6 col-sm-3">
+                    <div class="form-floating mb-3">
+                        <select class="form-select" aria-label="Default select example"
+                            [(ngModel)]="selectedDestination" (change)="onSelecteddestination($event)">
+                            <option selected>Seleccionar una ciudad</option>
+                            <option *ngFor="let destionationCity of allDestinationCities">
+                                {{destionationCity}}
+                            </option>
+                        </select>
+                        <label for="floatingInput">Ciudad Destino</label>
+                    </div>
+                </div>
+                <div class="col-6 col-sm-3">
+                    <ng-template #passengers let-modal>
+                        <div class="modal-header">
+                            <h4>Seleccionar cantidad de pasajeros</h4>
+                            <button type="button" class="btn-close" aria-label="Close"
+                                (click)="modal.dismiss('Cross click')"></button>
+                        </div>
+                        <div class="modal-body">
+                            <h5>Tipos de pasajeros</h5>
+                            <div class="infPassenger">
+                                <form>
+                                    <div class="mb-3">
+                                        <label class="form-label">Adultos</label>
+                                        <input id="numAdult" type="text" class="form-control"
+                                            placeholder="Número de adultos">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Niños</label>
+                                        <input id="numChild" type="text" class="form-control"
+                                            placeholder="Número de niños">
+                                        <label class="form-label" id="help-message">Mayores de 2 años</label>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Infantes</label>
+                                        <input id="numInfant" type="text" class="form-control"
+                                            placeholder="Número de infantes">
+                                        <label class="form-label" id="help-message">Menores de 2 años</label>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" (click)="passengerSelection()"
+                                (click)="modal.close()">Continuar</button>
+                            <button type="button" class="btn btn-danger" (click)="modal.close()">Cancelar</button>
+                        </div>
+                    </ng-template>
+                    <button class="btn btn-lg btn-outline-secondary" (click)="openNumberPassengers(passengers)"
+                        id="btnPassengers">Pasajeros</button>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-6 col-sm-3">
+                    <div class="mb-3">
+                        <label>Fecha de Ida</label>
+                        <input type="date" [(ngModel)]="departureDate" class="form-control" aria-label="Username"
+                            aria-describedby="basic-addon1">
+                    </div>
+                </div>
+                <div class="col-6 col-sm-3">
+                    <div class="typeDate" *ngIf="departureReturnFlight">
+                        <div class="mb-3">
+                            <label>Fecha de Regreso</label>
+                            <input type="date" [(ngModel)]="returnDate" class="form-control" aria-label="Username"
+                                aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-sm-3">
+                    <div class="mb-3">
+                        <button type="button" class="btn btn-primary" id="btnSearch"
+                            (click)="getTypeAllFliths()">Buscar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-info-vuelos></app-info-vuelos>

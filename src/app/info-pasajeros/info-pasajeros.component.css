@@ -1,0 +1,20 @@
+#container-infoPassengers {
+    margin-top: 30px;
+}
+
+#container-payment {
+    margin-top: 30px;
+}
+
+#name-modal {
+    margin-top: 20px;
+}
+
+#btnConfirm {
+    margin-top: 18px;
+}
+
+.docPassenger {
+    margin-top: 30px;
+    max-width: 40%;
+}
