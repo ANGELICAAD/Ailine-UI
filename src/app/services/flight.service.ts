@@ -20,6 +20,6 @@ export class FlightService {
 
   getFlight(idflight: number) {
     const path = `http://localhost:8080/api/flight/search/${idflight}`;
-    return this.http.get<Flight[]>(path);
+    return this.http.get<Flight>(path);
   }
 }

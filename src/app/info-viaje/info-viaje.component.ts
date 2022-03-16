@@ -81,7 +81,9 @@ export class InfoViajeComponent implements OnInit {
   // Capturar radio para tipo de fecha a mostrar
   selectedFlight() {
     this.departureReturnFlight = (document.getElementById("departureReturnFlight") as HTMLInputElement).checked;
-    this.departureFlight = (document.getElementById("departureFlight") as HTMLInputElement).checked;
+    this.departureFlight = (document.getElementById("departureFlight") as HTMLInputElement).checked;   
+    
+    this.DepartureFlight.emit({data:this.departureFlight}) 
   }
 
   // Obtiene la lista de los vuelos disponibles de ida
@@ -112,8 +114,6 @@ export class InfoViajeComponent implements OnInit {
         this.getAllDepartureFlight();
       }
     }
-
     this.DepartureReturnFlight.emit({data:this.departureReturnFlight})
-    this.DepartureFlight.emit({data:this.departureFlight})
   }
 }

@@ -58,6 +58,7 @@ export class InfoVuelosComponent implements OnInit {
 
     this.infoViaje.DepartureFlight.subscribe(result => {
       this.departureFlight = result.data;
+      this.DepartureFlight.emit({data:this.departureFlight})
     })
   }
 

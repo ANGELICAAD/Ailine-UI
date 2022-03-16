@@ -4,6 +4,6 @@ export interface Reserve {
     idReserve: number;
     state: string;
     departureFlight: Flight;
-    returnFlight: Flight;
+    returnFlight?: Flight;
     flightType: string;
 }

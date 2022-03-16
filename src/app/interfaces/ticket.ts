@@ -3,7 +3,7 @@ import { Reserve } from "./reserve";
 
 export interface Ticket {
     idTicket: number;
-    totalpayment: number;
+    totalPayment: number;
     idReserve: Reserve;
     idPassenger: Passenger;
 }

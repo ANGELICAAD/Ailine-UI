@@ -4,7 +4,8 @@
             <label class="form-label">Documento/Cédula</label>
             <input id="document" type="text" class="form-control" placeholder="Cédula">
         </div>
-        <button type="button" class="btn btn-outline-secondary" (click)="getVisaRequired()" (click)="activatedBtn()">Siguiente</button>
+        <button type="button" class="btn btn-outline-secondary" (click)="getVisaRequired()"
+            (click)="activatedBtn()">Siguiente</button>
     </div>
     <ng-template #infopassengers let-modal>
         <div class="modal-header">
@@ -93,13 +94,9 @@
         <div class="col-md-4">
             <div class="input-group mb-3">
                 <span class="input-group-text" id="discountTicket">Total a pagar</span>
-                <input type="text" class="form-control" value="$ {{ discountTotalTicket }}" aria-label="Total a pagar"
+                <input type="text" class="form-control" id="total-pagar" value="$ {{ discountTotalTicket }}" aria-label="Total a pagar"
                     aria-describedby="basic-addon1">
             </div>
-        </div>
-        <div class="col-6 col-sm-3">
-            <button type="button" class="btn btn-primary" id="btnTotalPayment" (click)="saveReserve()"
-                (click)="saveTicket()">Pagar</button>
         </div>
     </div>
     <div class="row align-items-start">
