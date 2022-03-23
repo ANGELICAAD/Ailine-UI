@@ -1,5 +1,7 @@
 import { Component, OnInit, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormControl } from '@angular/forms';
+import { FormGroup, Validators } from '@angular/forms';
 import { EventEmitter } from '@angular/core';
 
 import { RouteService } from '../services/route.service';
@@ -31,19 +33,45 @@ export class InfoViajeComponent implements OnInit {
   public allReturnFlights: any[] = []
   @Output() ReturnFlights: EventEmitter<any> = new EventEmitter();
   @Output() CityDestination: EventEmitter<any> = new EventEmitter();
+  public dateDeparture!: string;
+  public dateReturn: Date = new Date();
+
+  numberPassenger!: FormGroup
 
   constructor(
     public modal: NgbModal,
     private routeService: RouteService,
     private flightService: FlightService
-  ) { }
+  ) {
+    this.numberPassenger = new FormGroup({
+      formAdult: new FormControl('', [
+        Validators.required,
+        Validators.pattern(/^((\\+91-?)|0)?[0-9]{1,2}$/)
+      ]),
+      formChild: new FormControl('', [
+        Validators.required,
+        Validators.pattern(/^((\\+91-?)|0)?[0-9]{1,2}$/)
+      ]),
+      formInfant: new FormControl('', [
+        Validators.required,
+        Validators.pattern(/^((\\+91-?)|0)?[0-9]{1,2}$/)
+      ])
+    })
+  }
 
   ngOnInit(): void {
+    this.dateDeparture = new Date().toJSON().substring(0,10)
+
     // Obtiene la lista de las ciudades origen
     this.routeService.getAllOriginCities()
       .subscribe(origin => {
         return this.allOriginCities = origin;
       })
+  }
+
+  // Permite la selección de fechas de regreso mayores a la seleccionada en fecha de ida
+  selecDateReturn() {
+    this.dateReturn = this.departureDate
   }
 
   // Obtiene el valor (ciudad de origen) seleccionada en el selected
@@ -62,7 +90,7 @@ export class InfoViajeComponent implements OnInit {
   // Obtiene el valor (ciudad de destino) seleccionada en el selected
   onSelecteddestination(e: any) {
     this.selectedDestination = e.target.value;
-    this.CityDestination.emit({data:this.selectedDestination})
+    this.CityDestination.emit({ data: this.selectedDestination })
   }
 
   // Permite que el modal se abra o se muestre en pantalla
@@ -70,20 +98,12 @@ export class InfoViajeComponent implements OnInit {
     this.modal.open(passengers);
   }
 
-  // Permite obtener o capturar los valores de la cantidad de pasajeros ingresados de acuerdo al tipo
-  passengerSelection() {
-    this.adultNumber = Number((document.getElementById("numAdult") as HTMLInputElement).value);
-    this.childNumber = Number((document.getElementById("numChild") as HTMLInputElement).value);
-    this.infantNumber = Number((document.getElementById("numInfant") as HTMLInputElement).value);
-    this.passengerNumber = this.adultNumber + this.childNumber + this.infantNumber;
-  }
-
   // Capturar radio para tipo de fecha a mostrar
   selectedFlight() {
     this.departureReturnFlight = (document.getElementById("departureReturnFlight") as HTMLInputElement).checked;
-    this.departureFlight = (document.getElementById("departureFlight") as HTMLInputElement).checked;   
-    
-    this.DepartureFlight.emit({data:this.departureFlight}) 
+    this.departureFlight = (document.getElementById("departureFlight") as HTMLInputElement).checked;
+
+    this.DepartureFlight.emit({ data: this.departureFlight })
   }
 
   // Obtiene la lista de los vuelos disponibles de ida
@@ -91,7 +111,7 @@ export class InfoViajeComponent implements OnInit {
     await this.flightService.getAllflight(this.selectedOrigin, this.selectedDestination, this.passengerNumber, this.departureDate)
       .subscribe(flights => {
         this.allDepartureFlights = flights;
-        this.DepartureFlights.emit({data:this.allDepartureFlights})
+        this.DepartureFlights.emit({ data: this.allDepartureFlights })
       })
   }
 
@@ -100,20 +120,27 @@ export class InfoViajeComponent implements OnInit {
     await this.flightService.getAllflight(this.selectedDestination, this.selectedOrigin, this.passengerNumber, this.returnDate)
       .subscribe(flights => {
         this.allReturnFlights = flights;
-        this.ReturnFlights.emit({data:this.allReturnFlights})
+        this.ReturnFlights.emit({ data: this.allReturnFlights })
       })
   }
 
   // Obtiene la lista de los vuelos dependiendo si se trata de un vuelo de ida y regreso o solo de ida
-  getTypeAllFliths() {  
-    if(this.departureReturnFlight == true) {
+  getTypeAllFliths() {
+    if (this.departureReturnFlight == true) {
       this.getAllDepartureFlight()
       this.getAllReturnFlight()
     } else {
-      if(this.departureFlight == true) {
+      if (this.departureFlight == true) {
         this.getAllDepartureFlight();
       }
     }
-    this.DepartureReturnFlight.emit({data:this.departureReturnFlight})
+    this.DepartureReturnFlight.emit({ data: this.departureReturnFlight })
+  }
+
+  // Permite la captura de los datos ingresados en el modal de la cantidad de pasajeros
+  onSubmitNumberPassengers() {
+    // console.log(this.numberPassenger.value);
+    // console.log(this.numberPassenger.value.formAdult);
+    this.passengerNumber = Number(this.numberPassenger.value.formAdult) + Number(this.numberPassenger.value.formChild) + Number(this.numberPassenger.value.formInfant);
   }
 }

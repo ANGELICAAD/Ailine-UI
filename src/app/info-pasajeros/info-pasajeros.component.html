@@ -1,11 +1,15 @@
 <div class="container-pasenger">
-    <div class="docPassenger">
-        <div class="mb-3">
-            <label class="form-label">Documento/Cédula</label>
-            <input id="document" type="text" class="form-control" placeholder="Cédula">
-        </div>
-        <button type="button" class="btn btn-outline-secondary" (click)="getVisaRequired()"
-            (click)="activatedBtn()">Siguiente</button>
+    <div class="container">
+        <form [formGroup]="documentPassenger" (ngSubmit)="onSubmitDocumentPassenger()">
+            <div class="form-group docPassenger">
+                <label class="form-label">Documento/Cédula</label>
+                <input type="text" name="formDocument" class="form-control" formControlName="formDocument" placeholder="Cédula" ngModel />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Siguiente" class="btn btn-outline-secondary" (click)="getVisaRequired()"
+                (click)="activatedBtn()">
+            </div>
+        </form>
     </div>
     <ng-template #infopassengers let-modal>
         <div class="modal-header">
@@ -36,32 +40,37 @@
         <div class="modal-body">
             <h5>Ingresar información de pasajeros</h5>
             <div class="infPassenger">
-                <form>
-                    <div class="mb-3" id="name-modal">
+                <form [formGroup]="passengerData" (ngSubmit)="onSubmitPassengerData()">
+                    <div class="form-group">
                         <label class="form-label">Nombre</label>
-                        <input id="name" type="text" class="form-control" placeholder="Nombre">
+                        <label id="asterisco">*</label>
+                        <input type="text" name="formName" class="form-control" placeholder="Nombre" formControlName="formName" ngModel/>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Apellido</label>
-                        <input id="lastName" type="text" class="form-control" placeholder="Apellido">
+                        <label id="asterisco">*</label>
+                        <input type="text" name="formLastName" class="form-control" placeholder="Apellido" formControlName="formLastName" ngModel/>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Edad</label>
-                        <input id="age" type="text" class="form-control" placeholder="Edad">
+                        <label id="asterisco">*</label>
+                        <input type="text" name="formAge" class="form-control" placeholder="Edad" formControlName="formAge" ngModel/>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Correo Electrónico</label>
-                        <input id="email" type="text" class="form-control" placeholder="Correo electrónico">
+                        <label id="asterisco">*</label>
+                        <input type="text" name="formEmail" class="form-control" placeholder="Correo electrónico" formControlName="formEmail" ngModel/>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Teléfono</label>
-                        <input id="phone" type="text" class="form-control" placeholder="Teléfono">
+                        <label id="asterisco">*</label>
+                        <input type="text" name="formPhone" class="form-control" placeholder="Teléfono" formControlName="formPhone" ngModel/>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Tipo Pasajero</label>
+                        <label id="asterisco">*</label>
                         <div class="form-floating mb-3">
-                            <select class="form-select" aria-label="Default select example"
-                                (change)="selectedTypePassenger($event)">
+                            <select class="form-select" name="formTypePassenger" aria-label="Default select example" formControlName="formTypePassenger">
                                 <option selected>Seleccionar un tipo</option>
                                 <option *ngFor="let type of allTypePassengers">
                                     {{type}}
@@ -74,18 +83,20 @@
                         <div class="expirationVisa" *ngIf="expirationVisa">
                             <div class="mb-3">
                                 <label class="form-label">Fecha de Expiración de Visa</label>
-                                <input type="date" [(ngModel)]="visaExpirationDate" class="form-control"
+                                <label id="asterisco">*</label>
+                                <input type="date" name="formExpirationDate" [(ngModel)]="visaExpirationDate" class="form-control" formControlName="formExpirationDate"
                                     placeholder="Fecha de expiración de Visa">
                             </div>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <div class="modal-footer">
+                            <input type="submit" value="Continuar" class="btn btn-success" (click)="modal.close()" (click)="savePassenger()">
+                            <button type="button" class="btn btn-danger" (click)="modal.close()">Cancelar</button>
+                        </div>
+                    </div>
                 </form>
             </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-success" (click)="modal.close()"
-                (click)="savePassenger()">Continuar</button>
-            <button type="button" class="btn btn-danger" (click)="modal.close()">Cancelar</button>
         </div>
     </ng-template>
 </div>

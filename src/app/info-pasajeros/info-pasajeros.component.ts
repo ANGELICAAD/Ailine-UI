@@ -2,6 +2,7 @@ import { Component, OnInit, Output, TemplateRef, ViewChild } from '@angular/core
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { isEmpty } from '@ngneat/transloco';
 import { EventEmitter } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { InfoVuelosComponent } from '../info-vuelos/info-vuelos.component';
 import { Passenger } from '../interfaces/passenger';
@@ -51,6 +52,9 @@ export class InfoPasajerosComponent implements OnInit {
   @ViewChild('infosavepassengers')
   public infosavepassengers!: TemplateRef<any>;
 
+  documentPassenger!: FormGroup
+  passengerData!: FormGroup
+
   constructor(
     public modal: NgbModal,
     private infoVuelos: InfoVuelosComponent,
@@ -59,7 +63,40 @@ export class InfoPasajerosComponent implements OnInit {
     private ticketService: TicketService,
     private flightService: FlightService,
     private reserveService: ReserveService
-  ) { }
+  ) { 
+    this.documentPassenger = new FormGroup({
+      formDocument: new FormControl('', [
+        Validators.required,
+        Validators.pattern(/^((\\+91-?)|0)?[0-9]{7,10}$/)
+      ])
+    })
+    this.passengerData = new FormGroup({
+      formName: new FormControl('', [
+        Validators.required,
+        Validators.pattern(/^[a-zA-Z]+$/)
+      ]),
+      formLastName: new FormControl('', [
+        Validators.required,
+        Validators.pattern(/^[a-zA-Z]+$/)
+      ]),
+      formAge: new FormControl('', [
+        Validators.required,
+        Validators.pattern(/^((\\+91-?)|0)?[1-99]{1}$/)
+      ]),
+      formEmail: new FormControl('', [
+        Validators.required,
+        Validators.email
+      ]),
+      formPhone: new FormControl('', [
+        Validators.required,
+        Validators.pattern(/^((\\+91-?)|0)?[0-9]{10}$/)
+      ]),
+      formTypePassenger: new FormControl('', [
+        Validators.required
+      ]),
+      formExpirationDate: new FormControl()
+    })
+   }
 
   ngOnInit(): void {   
     this.getInfo();
@@ -89,6 +126,7 @@ export class InfoPasajerosComponent implements OnInit {
 
     this.infoVuelos.SelectedFlights.subscribe(result => {
       this.selectedFlights = result.data;
+      console.log("lista",this.selectedFlights);      
     })
   }
 
@@ -102,14 +140,16 @@ export class InfoPasajerosComponent implements OnInit {
 
   // Método para mostrar información de viaje (millas de pasajero), buscar y agregar a un pasajero
   activatedBtn() {    
-    let documentP = (document.getElementById("document") as HTMLInputElement).value;
-    this.getFindPassengerByDocument(documentP)
+    // let documentP = (document.getElementById("document") as HTMLInputElement).value;
+    // this.getFindPassengerByDocument(documentP)
+    this.getFindPassengerByDocument(this.documentPassenger.value.formDocument)
     setTimeout(() => {
       if(!isEmpty(this.passengerFound)) {
         this.passengerExists = true;
         this.getValidateFrequenceFlyer(Number(this.passengerFound?.idPassenger), 20);
         this.passengersList.push(this.passengerFound);
         this.calculateDiscount();
+        this.saveReserve(this.passengersList);
       } else {
         this.passengerExists = false;
       }
@@ -147,23 +187,23 @@ export class InfoPasajerosComponent implements OnInit {
   // Método para crear un usuario en caso de no estar registrado en la base de datos
   savePassenger() {
     if(this.passengerExists == false) {
-      let nameP = (document.getElementById("name") as HTMLInputElement).value;
-      let lastNameP = (document.getElementById("lastName") as HTMLInputElement).value;
-      let documentP = (document.getElementById("document") as HTMLInputElement).value;
-      let ageP = Number((document.getElementById("age") as HTMLInputElement).value);
-      let emailP = (document.getElementById("email") as HTMLInputElement).value;
-      let phoneP = (document.getElementById("phone") as HTMLInputElement).value;
+      // let nameP = (document.getElementById("name") as HTMLInputElement).value;
+      // let lastNameP = (document.getElementById("lastName") as HTMLInputElement).value;
+      // let documentP = (document.getElementById("document") as HTMLInputElement).value;
+      // let ageP = Number((document.getElementById("age") as HTMLInputElement).value);
+      // let emailP = (document.getElementById("email") as HTMLInputElement).value;
+      // let phoneP = (document.getElementById("phone") as HTMLInputElement).value;
       
       this.newPassenger = {
         idPassenger: -1,
-        document: documentP,
-        name: nameP,
-        lastName: lastNameP,
-        phone: phoneP,
-        email: emailP,
-        age: ageP,
-        type: this.typePassenger,
-        visaExpirationDate: this.visaExpirationDate,
+        document: this.passengerData.value.formDocument,
+        name: this.passengerData.value.formName,
+        lastName: this.passengerData.value.formLastName,
+        phone: this.passengerData.value.formPhone,
+        email: this.passengerData.value.formEmail,
+        age: this.passengerData.value.formAge,
+        type: this.passengerData.value.formTypePassenger,
+        visaExpirationDate: this.passengerData.value.formExpirationDate,
         numberTrips: 0,
         numberMiles: 0,
         frequentFlyer: false
@@ -244,6 +284,7 @@ export class InfoPasajerosComponent implements OnInit {
     let dtFlight: Flight
     let rtFlight: Flight
     
+    console.log("tamaño",this.selectedFlights.length,this.selectedFlights);
     this.flightService.getFlight(this.selectedFlights[0][4])
     .subscribe(flight => {
       dtFlight = flight
@@ -256,8 +297,11 @@ export class InfoPasajerosComponent implements OnInit {
           }
           this.saveTicket(this.newReserve, passengersList)
         } else {
+          if(this.selectedFlights.length == 2 && this.departureFlight == false) {
+          console.log("entra a else");          
           this.flightService.getFlight(this.selectedFlights[1][4])
           .subscribe(flight => {
+            console.log("dtFlight",dtFlight);    
             rtFlight = flight
             console.log("rtflight",rtFlight);            
             this.newReserve = {
@@ -268,7 +312,8 @@ export class InfoPasajerosComponent implements OnInit {
               flightType: "RT"
             }
             this.saveTicket(this.newReserve, passengersList)
-          })    
+          })
+          }
         }
       })
   }
@@ -316,6 +361,7 @@ export class InfoPasajerosComponent implements OnInit {
 
   // Método para mostrar al pasajero el número de reserva y actualizar el estado de la reserva
   showReservationInfo() {
+    console.log("newReserve",this.newReserve);    
     this.changeReservationStatus(this.newReserve);
 
     this.showReservations = true
@@ -349,5 +395,15 @@ export class InfoPasajerosComponent implements OnInit {
     this.reserveService.reservationUpgrade(createdReserve).subscribe(result => {
       console.log(result);              
     })  
+  }
+
+  // Permite la captura del dato ingresado respecto al documento del pasajero
+  onSubmitDocumentPassenger() {
+    console.log(this.documentPassenger.value);
+  }
+
+  // Permite capturar el formulario de ingreso de un nuevo pasajero
+  onSubmitPassengerData() {
+    console.log(this.passengerData.value);
   }
 }

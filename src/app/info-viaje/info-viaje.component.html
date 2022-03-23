@@ -74,32 +74,38 @@
                         </div>
                         <div class="modal-body">
                             <h5>Tipos de pasajeros</h5>
-                            <div class="infPassenger">
-                                <form>
-                                    <div class="mb-3">
-                                        <label class="form-label">Adultos</label>
-                                        <input id="numAdult" type="text" class="form-control"
-                                            placeholder="Número de adultos">
+                            <div class="container">
+                                <form [formGroup]="numberPassenger" (ngSubmit)="onSubmitNumberPassengers()">
+                                    <div class="form-group">
+                                        <label>Adultos</label>
+                                        <label id="asterisco">*</label>
+                                        <input type="text" name="formAdult" class="form-control"
+                                            formControlName="formAdult" ngModel placeholder="Número de adultos" />
                                     </div>
-                                    <div class="mb-3">
-                                        <label class="form-label">Niños</label>
-                                        <input id="numChild" type="text" class="form-control"
-                                            placeholder="Número de niños">
+                                    <div class="form-group">
+                                        <label>Niños</label>
+                                        <label id="asterisco">*</label>
+                                        <input type="text" name="formChild" class="form-control"
+                                            formControlName="formChild" ngModel placeholder="Número de niños" />
                                         <label class="form-label" id="help-message">Mayores de 2 años</label>
                                     </div>
-                                    <div class="mb-3">
-                                        <label class="form-label">Infantes</label>
-                                        <input id="numInfant" type="text" class="form-control"
-                                            placeholder="Número de infantes">
+                                    <div class="form-group">
+                                        <label>Infantes</label>
+                                        <label id="asterisco">*</label>
+                                        <input type="text" name="formInfant" class="form-control"
+                                            formControlName="formInfant" ngModel placeholder="Número de infantes" />
                                         <label class="form-label" id="help-message">Menores de 2 años</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="modal-footer">
+                                            <input type="submit" value="Continuar" class="btn btn-success"
+                                                (click)="modal.close()">
+                                            <button type="button" class="btn btn-danger"
+                                                (click)="modal.close()">Cancelar</button>
+                                        </div>
                                     </div>
                                 </form>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-success" (click)="passengerSelection()"
-                                (click)="modal.close()">Continuar</button>
-                            <button type="button" class="btn btn-danger" (click)="modal.close()">Cancelar</button>
                         </div>
                     </ng-template>
                     <button class="btn btn-lg btn-outline-secondary" (click)="openNumberPassengers(passengers)"
@@ -111,7 +117,7 @@
                     <div class="mb-3">
                         <label>Fecha de Ida</label>
                         <input type="date" [(ngModel)]="departureDate" class="form-control" aria-label="Username"
-                            aria-describedby="basic-addon1">
+                            aria-describedby="basic-addon1" [min]="dateDeparture">
                     </div>
                 </div>
                 <div class="col-6 col-sm-3">
@@ -119,7 +125,7 @@
                         <div class="mb-3">
                             <label>Fecha de Regreso</label>
                             <input type="date" [(ngModel)]="returnDate" class="form-control" aria-label="Username"
-                                aria-describedby="basic-addon1">
+                                aria-describedby="basic-addon1" (click)="selecDateReturn()" [min]="dateReturn">
                         </div>
                     </div>
                 </div>
