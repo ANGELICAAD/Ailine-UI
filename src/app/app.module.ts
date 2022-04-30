@@ -11,7 +11,7 @@ import { InfoPasajerosComponent } from './info-pasajeros/info-pasajeros.componen
 import { InfoReservasComponent } from './info-reservas/info-reservas.component';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   // Clases y componentes
@@ -28,7 +28,8 @@ import { FormsModule } from '@angular/forms';
     HttpClientModule,
     AppRoutingModule,
     NgbModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
