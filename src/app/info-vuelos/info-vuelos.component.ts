@@ -64,24 +64,23 @@ export class InfoVuelosComponent implements OnInit {
 
   // Permite seleccionar un vuelo de ida
   selectedRowDeparture(flight: any) { 
-    this.paymentDepartureTicket = flight[3];
+    this.paymentDepartureTicket = flight.cost;
     this.PaymentDepartureTicket.emit({data:this.paymentDepartureTicket})
     this.selectedFlights.push(flight);
     this.calculateTotal(flight);
-    this.SelectedFlights.emit({data:this.selectedFlights})
   }
 
   // Permite seleccionar un vuelo de regreso
   selectedRowReturn(flight: any) {
-    this.paymentReturnTicket = flight[3];
+    this.paymentReturnTicket = flight.cost;
     this.PaymentReturnTicket.emit({data:this.paymentReturnTicket})
     this.selectedFlights.push(flight);
     this.calculateTotal(flight);
-    this.SelectedFlights.emit({data:this.selectedFlights})
   }
 
   // Método que permite calcular el total de pago del vuelo
   calculateTotal(flight: any) {
-    this.paymentTotal = this.paymentTotal + flight[3];
+    this.paymentTotal = this.paymentTotal + flight.cost;
+    this.SelectedFlights.emit({data:this.selectedFlights})
   }
 }

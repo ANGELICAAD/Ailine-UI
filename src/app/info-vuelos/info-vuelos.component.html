@@ -19,10 +19,10 @@
                             <tbody>
                                 <ng-container *ngFor="let flight of allDepartureFlights">
                                     <tr>
-                                        <td>{{ flight[0] }}</td>
-                                        <td>{{ flight[1] }}</td>
-                                        <td>{{ flight[2] }}</td>
-                                        <td>{{ flight[3] }}</td>
+                                        <td>{{ flight.hour }}</td>
+                                        <td>{{ flight.duration }}</td>
+                                        <td>{{ flight.routeType }}</td>
+                                        <td>{{ flight.cost }}</td>
                                         <td>
                                             <button type="button" class="btn btn-outline-info" id="selectFlight"
                                                 (click)="selectedRowDeparture(flight)">Seleccionar</button>
@@ -52,10 +52,10 @@
                             <tbody>
                                 <ng-container *ngFor="let flight of allReturnFlights">
                                     <tr>
-                                        <td>{{ flight[0] }}</td>
-                                        <td>{{ flight[1] }}</td>
-                                        <td>{{ flight[2] }}</td>
-                                        <td>{{ flight[3] }}</td>
+                                        <td>{{ flight.hour }}</td>
+                                        <td>{{ flight.duration }}</td>
+                                        <td>{{ flight.routeType }}</td>
+                                        <td>{{ flight.cost }}</td>
                                         <td>
                                             <button type="button" class="btn btn-outline-info"
                                                 (click)="selectedRowReturn(flight)">Seleccionar</button>
@@ -87,10 +87,10 @@
                         <tbody>
                             <ng-container *ngFor="let flight of selectedFlights">
                                 <tr>
-                                    <td>{{ flight[0] }}</td>
-                                    <td>{{ flight[1] }}</td>
-                                    <td>{{ flight[2] }}</td>
-                                    <td>{{ flight[3] }}</td>
+                                    <td>{{ flight.hour }}</td>
+                                    <td>{{ flight.duration }}</td>
+                                    <td>{{ flight.routeType }}</td>
+                                    <td>{{ flight.cost }}</td>
                                 </tr>
                             </ng-container>
                         </tbody>
