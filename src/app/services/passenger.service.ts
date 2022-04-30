@@ -17,24 +17,24 @@ export class PassengerService {
 
   // Método que permite crear o registrar nuevos pasajeros
   createPassenger(passenger: any) {
-    const path = `${this.apiServerURL}/passenger`;
+    const path = `${this.apiServerURL}/api/passenger`;
     return this.http.post(path, passenger);
   }
 
   // Método que permite validar la frecuencia de viaje de un pasajero, las millas que tiene acumuladas y las que va a acumular
   getvalidateFrequentFlyer(idPassenger: number, acumulateMiles: number) {
-    const path = `${this.apiServerURL}/passenger/validate/${idPassenger}&&${acumulateMiles}`;
+    const path = `${this.apiServerURL}/api/passenger/validate/${idPassenger}&&${acumulateMiles}`;
     return this.http.get<number[]>(path);
   }
 
   // Método que permite buscar a un pasajero por medio del id
   getFindPassenger(idPassenger: number) {
-    const path = `${this.apiServerURL}/passenger/${idPassenger}`;
+    const path = `${this.apiServerURL}/api/passenger/${idPassenger}`;
     return this.http.get<Passenger>(path);
   }
 
   getFindPassengerByDocument(document: string) {
-    const path = `${this.apiServerURL}/passenger/search/${document}`;
+    const path = `${this.apiServerURL}/api/passenger/search/${document}`;
     return this.http.get<Passenger>(path);
   }
 }

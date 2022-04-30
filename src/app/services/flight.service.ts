@@ -19,12 +19,12 @@ export class FlightService {
 
   // Método que permite obtener la lista de los vuelos de acuerdo a la ciudad de origen, ciudad de destino, número de pasajeros, fecha de salida
   getAllflight(flightList: FlightList) {
-    const path = `${this.apiServerURL}/flight/`;
+    const path = `${this.apiServerURL}/api/flight/`;
     return this.http.post<FlightDTO[]>(path, flightList);
   }
 
   getFlight(idflight: number) {
-    const path = `${this.apiServerURL}/flight/search/${idflight}`;
+    const path = `${this.apiServerURL}/api/flight/search/${idflight}`;
     return this.http.get<Flight>(path);
   }
 }

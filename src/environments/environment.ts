@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiBaseURL: 'https://spring-boot-airline.herokuapp.com/api'
+  apiBaseURL: 'https://spring-boot-airline.herokuapp.com/'
 };
 
 /*
