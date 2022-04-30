@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 import { Route } from '../interfaces/route';
 
@@ -8,19 +9,21 @@ import { Route } from '../interfaces/route';
 })
 export class RouteService {
 
+  private apiServerURL = environment.apiBaseURL
+
   constructor(
     private http: HttpClient
   ) { }
 
   // Método que permite obtener la lista de las ciudades de origen
   getAllOriginCities() {
-    const path = 'http://localhost:8080/api/route/originCities';
+    const path = `${this.apiServerURL}/route/originCities`;
     return this.http.get<Route[]>(path);
   }
 
   // Método que permite obtener la lista de las ciudades de destino de acuerdo a una ciudad origen
   getAllDestinationCities(name: string) {
-    const path = `http://localhost:8080/api/route/destinationCities/${name}`;
+    const path = `${this.apiServerURL}/route/destinationCities/${name}`;
     return this.http.get<Route[]>(path);
   }
 }
