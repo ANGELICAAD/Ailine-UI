@@ -17,13 +17,13 @@ export class TicketService {
 
   // Método que permite validar el descuento total a efectuar en un tiquete
   getValidateDiscounts(idPassenger: number) {
-    const path = `${this.apiServerURL}/api/ticket/?idPassenger=${idPassenger}`;
+    const path = `${this.apiServerURL}api/ticket/?idPassenger=${idPassenger}`;
     return this.http.get<number>(path);
   }
 
   // Método que permite crear o registrar nuevos tiquetes
   createTicket(ticket: Ticket) {
-    const path = `${this.apiServerURL}/api/ticket`;
+    const path = `${this.apiServerURL}api/ticket`;
     return this.http.post(path, ticket);
   }
 }

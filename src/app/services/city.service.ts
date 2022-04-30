@@ -15,7 +15,7 @@ export class CityService {
 
   // Método que permite validar si una ciudad destino requiere de visa
   getVisaRequired(name: string) {
-    const path = `${this.apiServerURL}/api/city/${name}`;
+    const path = `${this.apiServerURL}api/city/${name}`;
     return this.http.get<boolean>(path);
   }
 }
