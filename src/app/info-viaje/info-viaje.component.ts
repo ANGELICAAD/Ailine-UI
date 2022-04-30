@@ -6,6 +6,8 @@ import { EventEmitter } from '@angular/core';
 
 import { RouteService } from '../services/route.service';
 import { FlightService } from '../services/flight.service';
+import { FlightList } from '../interfaces/flightList';
+import { FlightDTO } from '../interfaces/flightDTO';
 
 @Component({
   selector: 'app-info-viaje',
@@ -35,6 +37,8 @@ export class InfoViajeComponent implements OnInit {
   @Output() CityDestination: EventEmitter<any> = new EventEmitter();
   public dateDeparture!: string;
   public dateReturn: Date = new Date();
+  public newFlightList!: FlightList;
+  public newFlightDTO!: FlightDTO;
 
   numberPassenger!: FormGroup
 
@@ -98,6 +102,14 @@ export class InfoViajeComponent implements OnInit {
     this.modal.open(passengers);
   }
 
+  // Permite obtener o capturar los valores de la cantidad de pasajeros ingresados de acuerdo al tipo
+  passengerSelection(adultNumber: string, childNumber: string, infantNumber: string) {
+    this.adultNumber = Number(adultNumber);
+    this.childNumber = Number(childNumber);
+    this.infantNumber = Number(infantNumber);
+    this.passengerNumber = this.adultNumber + this.childNumber + this.infantNumber;
+  }
+
   // Capturar radio para tipo de fecha a mostrar
   selectedFlight() {
     this.departureReturnFlight = (document.getElementById("departureReturnFlight") as HTMLInputElement).checked;
@@ -108,7 +120,13 @@ export class InfoViajeComponent implements OnInit {
 
   // Obtiene la lista de los vuelos disponibles de ida
   async getAllDepartureFlight() {
-    await this.flightService.getAllflight(this.selectedOrigin, this.selectedDestination, this.passengerNumber, this.departureDate)
+    this.newFlightList = {
+      selectedDate: this.departureDate,
+      originCity: this.selectedOrigin,
+      destinationCity: this.selectedDestination,
+      numberPassanger: this.passengerNumber
+    }
+    await this.flightService.getAllflight(this.newFlightList)
       .subscribe(flights => {
         this.allDepartureFlights = flights;
         this.DepartureFlights.emit({ data: this.allDepartureFlights })
@@ -117,7 +135,13 @@ export class InfoViajeComponent implements OnInit {
 
   // Obtiene la lista de los vuelos disponibles de regreso
   async getAllReturnFlight() {
-    await this.flightService.getAllflight(this.selectedDestination, this.selectedOrigin, this.passengerNumber, this.returnDate)
+    this.newFlightList = {
+      selectedDate: this.returnDate,
+      originCity: this.selectedDestination,
+      destinationCity: this.selectedOrigin,
+      numberPassanger: this.passengerNumber
+    }
+    await this.flightService.getAllflight(this.newFlightList)
       .subscribe(flights => {
         this.allReturnFlights = flights;
         this.ReturnFlights.emit({ data: this.allReturnFlights })
@@ -139,8 +163,17 @@ export class InfoViajeComponent implements OnInit {
 
   // Permite la captura de los datos ingresados en el modal de la cantidad de pasajeros
   onSubmitNumberPassengers() {
-    // console.log(this.numberPassenger.value);
-    // console.log(this.numberPassenger.value.formAdult);
     this.passengerNumber = Number(this.numberPassenger.value.formAdult) + Number(this.numberPassenger.value.formChild) + Number(this.numberPassenger.value.formInfant);
+  }
+
+  // Método para validar la información del ingreso de la cantidad de pasajeros
+  validatePassengerFields() {
+    let adultNumber = (document.getElementById("numAdult") as HTMLInputElement).value;
+    let childNumber = (document.getElementById("numChild") as HTMLInputElement).value;
+    let infantNumber = (document.getElementById("numInfant") as HTMLInputElement).value;
+
+    if (Number(adultNumber) && Number(childNumber) && Number(infantNumber)) {
+      this.passengerSelection(adultNumber, childNumber, infantNumber)
+    }
   }
 }
