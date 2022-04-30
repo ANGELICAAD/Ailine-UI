@@ -38,6 +38,7 @@ export class InfoPasajerosComponent implements OnInit {
   public reserve!: Reserve
   public reserveList: Reserve[] = []
   public departureReturnFlight: boolean = false
+  @Output() DepartureReturnFlight: EventEmitter<any> = new EventEmitter();
   public departureFlight: boolean = false
   public passengerExists: boolean = false;
   public reservationNumber: number = 0;
@@ -46,6 +47,7 @@ export class InfoPasajerosComponent implements OnInit {
   public newReserve!: Reserve;
   public total: number = 0
   public idReserve: number = 0
+  @Output() IdReserve: EventEmitter<any> = new EventEmitter();
   
   @ViewChild('infopassengers')
   public infopassengers!: TemplateRef<any>;
@@ -140,9 +142,9 @@ export class InfoPasajerosComponent implements OnInit {
 
   // Método para mostrar información de viaje (millas de pasajero), buscar y agregar a un pasajero
   activatedBtn() {    
-    // let documentP = (document.getElementById("document") as HTMLInputElement).value;
-    // this.getFindPassengerByDocument(documentP)
-    this.getFindPassengerByDocument(this.documentPassenger.value.formDocument)
+    let documentP = (document.getElementById("document") as HTMLInputElement).value;
+    this.getFindPassengerByDocument(documentP)
+    
     setTimeout(() => {
       if(!isEmpty(this.passengerFound)) {
         this.passengerExists = true;
@@ -171,11 +173,9 @@ export class InfoPasajerosComponent implements OnInit {
 
   // Método para verificar si un pasajero es frecuente
   async getValidateFrequenceFlyer(idPassenger: number, miles: number) {
-    await this.passengerService.getvalidateFrequentFlyer(3, miles)
-      .subscribe(message => {
-        let returnMessage = JSON.stringify(message)
-        let sentence = returnMessage.split(":")[1]
-        this.messageMiles = sentence.split("\"")[1]
+    await this.passengerService.getvalidateFrequentFlyer(idPassenger, miles)
+      .subscribe(miles => {
+        this.messageMiles = "Actualmente usted tiene " + miles[0] + " millas. Y se van a acumular " + miles[1] + " millas con el viaje."
       })
   }
 
@@ -187,12 +187,12 @@ export class InfoPasajerosComponent implements OnInit {
   // Método para crear un usuario en caso de no estar registrado en la base de datos
   savePassenger() {
     if(this.passengerExists == false) {
-      // let nameP = (document.getElementById("name") as HTMLInputElement).value;
-      // let lastNameP = (document.getElementById("lastName") as HTMLInputElement).value;
-      // let documentP = (document.getElementById("document") as HTMLInputElement).value;
-      // let ageP = Number((document.getElementById("age") as HTMLInputElement).value);
-      // let emailP = (document.getElementById("email") as HTMLInputElement).value;
-      // let phoneP = (document.getElementById("phone") as HTMLInputElement).value;
+      let nameP = (document.getElementById("name") as HTMLInputElement).value;
+      let lastNameP = (document.getElementById("lastName") as HTMLInputElement).value;
+      let documentP = (document.getElementById("document") as HTMLInputElement).value;
+      let ageP = Number((document.getElementById("age") as HTMLInputElement).value);
+      let emailP = (document.getElementById("email") as HTMLInputElement).value;
+      let phoneP = (document.getElementById("phone") as HTMLInputElement).value;
       
       this.newPassenger = {
         idPassenger: -1,
@@ -284,7 +284,6 @@ export class InfoPasajerosComponent implements OnInit {
     let dtFlight: Flight
     let rtFlight: Flight
     
-    console.log("tamaño",this.selectedFlights.length,this.selectedFlights);
     this.flightService.getFlight(this.selectedFlights[0][4])
     .subscribe(flight => {
       dtFlight = flight
@@ -360,27 +359,13 @@ export class InfoPasajerosComponent implements OnInit {
   }
 
   // Método para mostrar al pasajero el número de reserva y actualizar el estado de la reserva
-  showReservationInfo() {
-    console.log("newReserve",this.newReserve);    
+  showReservationInfo() {  
     this.changeReservationStatus(this.newReserve);
 
     this.showReservations = true
     this.ShowReservations.emit({data:this.showReservations})
-    
-    this.getFindPassengerByDocument(this.passengersList[0].document)
-    let idPassenger = this.passengerFound?.idPassenger
-    
-    if(this.departureReturnFlight == true) {
-      this.ticketService.getPenultimateReservation(Number(idPassenger))
-        .subscribe(reserve => {
-          this.reservationNumber = reserve;
-        })
-    } else {
-      this.ticketService.getLastReservation(Number(idPassenger))
-        .subscribe(reserve => {
-          this.reservationNumber = reserve;
-        })
-    }
+    this.IdReserve.emit({ data: this.idReserve })
+    this.DepartureReturnFlight.emit({ data: this.departureReturnFlight })
   }
 
   // Método para modificar el estado actual de la reserva, es decir, de estado pendiente a confirmado
