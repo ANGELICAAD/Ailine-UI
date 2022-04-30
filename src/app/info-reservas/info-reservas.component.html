@@ -18,21 +18,38 @@
                 </tr>
             </thead>
             <tbody>
-                <ng-container *ngFor="let reserve of allReservations">
-                    <tr>
-                        <td>{{ reserve[0] }}</td>
-                        <td>{{ reserve[1] }}</td>
-                        <td>{{ reserve[2] }}</td>
-                        <td>{{ reserve[3] }}</td>
-                        <td>{{ reserve[4] }}</td>
-                        <td>{{ reserve[5] }}</td>
-                        <td>{{ reserve[6] }}</td>
-                        <td>{{ reserve[7] }}</td>
-                        <td>{{ reserve[8] }}</td>
-                        <td>{{ reserve[9] }}</td>
-                        <td>{{ reserve[10] }}</td>
-                    </tr>
-                </ng-container>
+                <div *ngIf="departureReturnFlight == true; else reserveOW">
+                    <ng-container *ngFor="let reserve of allReservationsRT">
+                        <tr>
+                            <td>{{ reserve.state }}</td>
+                            <td>{{ reserve.nameCityOriginDeparture }}</td>
+                            <td>{{ reserve.nameCityDestinationDeparture }}</td>
+                            <td>{{ reserve.departureDate }}</td>
+                            <td>{{ reserve.departureRouteType }}</td>
+                            <td>{{ reserve.nameCityOriginReturn }}</td>
+                            <td>{{ reserve.nameCityDestinationReturn }}</td>
+                            <td>{{ reserve.returnDate }}</td>
+                            <td>{{ reserve.returnRouteType }}</td>
+                            <td>{{ reserve.passengerName }}</td>
+                            <td>{{ reserve.passengerLastName }}</td>
+                            <td>{{ reserve.documentName }}</td>
+                        </tr>
+                    </ng-container>
+                </div>
+                <ng-template #reserveOW>
+                    <ng-container *ngFor="let reserve of allReservationsOW">
+                        <tr>
+                            <td>{{ reserve.state }}</td>
+                            <td>{{ reserve.nameCityOriginDeparture }}</td>
+                            <td>{{ reserve.nameCityDestinationDeparture }}</td>
+                            <td>{{ reserve.departureDate }}</td>
+                            <td>{{ reserve.departureRouteType }}</td>
+                            <td>{{ reserve.passengerName }}</td>
+                            <td>{{ reserve.passengerLastName }}</td>
+                            <td>{{ reserve.documentName }}</td>
+                        </tr>
+                    </ng-container>
+                </ng-template>
             </tbody>
         </table>
     </div>

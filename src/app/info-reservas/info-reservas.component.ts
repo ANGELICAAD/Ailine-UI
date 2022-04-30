@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 import { ReserveService } from '../services/reserve.service';
-import { Reserve } from '../interfaces/reserve';
 import { InfoPasajerosComponent } from '../info-pasajeros/info-pasajeros.component';
+import { ReserveOWDTO } from '../interfaces/reserveOWDTO';
+import { ReserveRTDTO } from '../interfaces/reserveRTDTO';
 
 @Component({
   selector: 'app-info-reservas',
@@ -13,6 +14,10 @@ export class InfoReservasComponent implements OnInit {
 
   public allReservations: any[] = []
   public showReservations: boolean = false
+  public idReserve: number = 0
+  public departureReturnFlight: boolean = false
+  public allReservationsOW!: ReserveOWDTO[]
+  public allReservationsRT!: ReserveRTDTO[]
 
   constructor(
     private reserveService: ReserveService,
@@ -29,13 +34,38 @@ export class InfoReservasComponent implements OnInit {
     this.infoPasajeros.ShowReservations.subscribe(result => {
       this.showReservations = result.data
     })
+
+    this.infoPasajeros.IdReserve.subscribe(result => {
+      this.idReserve = result.data
+    })
+
+    this.infoPasajeros.DepartureReturnFlight.subscribe(result => {
+      this.departureReturnFlight = result.data
+    })
   }
 
   // Método para mostrar la lista de reservadas creadas
   showReservationList() {
-    this.reserveService.getAllReservations()
+    if (this.departureReturnFlight == true) {
+      this.getAllReservationsRT()
+    } else {
+      this.getAllReservationsOW()
+    }
+  }
+
+  // Método para obtener las reservas que fueron creadas como tipo OW
+  getAllReservationsOW() {
+    this.reserveService.getAllReservationsOW(this.idReserve)
       .subscribe(reserve => {
-        this.allReservations = reserve;
+        this.allReservationsOW = reserve;
+      })
+  }
+
+  // Método para obtener las reservas que fueron creadas como tipo RT
+  getAllReservationsRT() {
+    this.reserveService.getAllReservationsRT(this.idReserve)
+      .subscribe(reserve => {
+        this.allReservationsRT = reserve;
       })
   }
 }
