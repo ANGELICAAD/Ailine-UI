@@ -120,13 +120,7 @@ export class InfoViajeComponent implements OnInit {
 
   // Obtiene la lista de los vuelos disponibles de ida
   async getAllDepartureFlight() {
-    this.newFlightList = {
-      selectedDate: this.departureDate,
-      originCity: this.selectedOrigin,
-      destinationCity: this.selectedDestination,
-      numberPassanger: this.passengerNumber
-    }
-    await this.flightService.getAllflight(this.newFlightList)
+    await this.flightService.getAllflight(this.selectedOrigin, this.selectedDestination, this.passengerNumber, this.departureDate)
       .subscribe(flights => {
         this.allDepartureFlights = flights;
         this.DepartureFlights.emit({ data: this.allDepartureFlights })
@@ -135,13 +129,7 @@ export class InfoViajeComponent implements OnInit {
 
   // Obtiene la lista de los vuelos disponibles de regreso
   async getAllReturnFlight() {
-    this.newFlightList = {
-      selectedDate: this.returnDate,
-      originCity: this.selectedDestination,
-      destinationCity: this.selectedOrigin,
-      numberPassanger: this.passengerNumber
-    }
-    await this.flightService.getAllflight(this.newFlightList)
+    await this.flightService.getAllflight(this.selectedDestination, this.selectedOrigin, this.passengerNumber, this.returnDate)
       .subscribe(flights => {
         this.allReturnFlights = flights;
         this.ReturnFlights.emit({ data: this.allReturnFlights })
