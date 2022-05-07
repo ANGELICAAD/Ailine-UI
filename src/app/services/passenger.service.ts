@@ -17,6 +17,8 @@ export class PassengerService {
 
   // Método que permite crear o registrar nuevos pasajeros
   createPassenger(passenger: any) {
+    console.log('create passenger');    
+    console.log(passenger); 
     const path = `${this.apiServerURL}api/passenger`;
     return this.http.post(path, passenger);
   }

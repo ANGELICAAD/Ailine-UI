@@ -37,6 +37,7 @@ export class InfoReservasComponent implements OnInit {
 
     this.infoPasajeros.IdReserve.subscribe(result => {
       this.idReserve = result.data
+      console.log("id reserve ", this.idReserve);
     })
 
     this.infoPasajeros.DepartureReturnFlight.subscribe(result => {
@@ -54,7 +55,7 @@ export class InfoReservasComponent implements OnInit {
   }
 
   // Método para obtener las reservas que fueron creadas como tipo OW
-  getAllReservationsOW() {
+  getAllReservationsOW() {    
     this.reserveService.getAllReservationsOW(this.idReserve)
       .subscribe(reserve => {
         this.allReservationsOW = reserve;

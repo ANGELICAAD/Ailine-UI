@@ -81,6 +81,8 @@ export class InfoVuelosComponent implements OnInit {
   // Método que permite calcular el total de pago del vuelo
   calculateTotal(flight: any) {
     this.paymentTotal = this.paymentTotal + flight.cost;
+    // console.log("SelectedFlights vuelos ", this.selectedFlights);
+    
     this.SelectedFlights.emit({data:this.selectedFlights})
   }
 }

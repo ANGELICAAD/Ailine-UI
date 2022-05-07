@@ -127,8 +127,9 @@ export class InfoPasajerosComponent implements OnInit {
     })
 
     this.infoVuelos.SelectedFlights.subscribe(result => {
-      this.selectedFlights = result.data;
-      console.log("lista",this.selectedFlights);      
+      this.selectedFlights = result.data;    
+      // console.log("selected ", this.selectedFlights, " ", this.selectedFlights[0][4], " ", this.selectedFlights[0][3], " ", this.selectedFlights[0].idFlight);
+      
     })
   }
 
@@ -142,8 +143,7 @@ export class InfoPasajerosComponent implements OnInit {
 
   // Método para mostrar información de viaje (millas de pasajero), buscar y agregar a un pasajero
   activatedBtn() {    
-    let documentP = (document.getElementById("document") as HTMLInputElement).value;
-    this.getFindPassengerByDocument(documentP)
+    this.getFindPassengerByDocument(this.documentPassenger.value.formDocument)
     
     setTimeout(() => {
       if(!isEmpty(this.passengerFound)) {
@@ -186,17 +186,10 @@ export class InfoPasajerosComponent implements OnInit {
 
   // Método para crear un usuario en caso de no estar registrado en la base de datos
   savePassenger() {
-    if(this.passengerExists == false) {
-      let nameP = (document.getElementById("name") as HTMLInputElement).value;
-      let lastNameP = (document.getElementById("lastName") as HTMLInputElement).value;
-      let documentP = (document.getElementById("document") as HTMLInputElement).value;
-      let ageP = Number((document.getElementById("age") as HTMLInputElement).value);
-      let emailP = (document.getElementById("email") as HTMLInputElement).value;
-      let phoneP = (document.getElementById("phone") as HTMLInputElement).value;
-      
+    if(this.passengerExists == false) {      
       this.newPassenger = {
         idPassenger: -1,
-        document: this.passengerData.value.formDocument,
+        document: this.documentPassenger.value.formDocument,
         name: this.passengerData.value.formName,
         lastName: this.passengerData.value.formLastName,
         phone: this.passengerData.value.formPhone,
@@ -209,6 +202,7 @@ export class InfoPasajerosComponent implements OnInit {
         frequentFlyer: false
       }       
       this.passengerService.createPassenger(this.newPassenger).subscribe(data => {
+        console.log("creado ", this.newPassenger.document);
         this.getFindPassengerByDocument(this.newPassenger.document) 
         setTimeout(() => {
           this.passengersList.push(this.passengerFound);
@@ -283,8 +277,9 @@ export class InfoPasajerosComponent implements OnInit {
   saveReserve(passengersList: any[]) {
     let dtFlight: Flight
     let rtFlight: Flight
+    console.log("idFlight ", this.selectedFlights[0][4]);
     
-    this.flightService.getFlight(this.selectedFlights[0][4])
+    this.flightService.getFlight(this.selectedFlights[0].idFlight)
     .subscribe(flight => {
       dtFlight = flight
         if(this.selectedFlights.length == 1 && this.departureFlight == true) {      
@@ -298,7 +293,7 @@ export class InfoPasajerosComponent implements OnInit {
         } else {
           if(this.selectedFlights.length == 2 && this.departureFlight == false) {
           console.log("entra a else");          
-          this.flightService.getFlight(this.selectedFlights[1][4])
+          this.flightService.getFlight(this.selectedFlights[1].idFlight)
           .subscribe(flight => {
             console.log("dtFlight",dtFlight);    
             rtFlight = flight

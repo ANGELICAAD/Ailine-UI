@@ -103,12 +103,12 @@ export class InfoViajeComponent implements OnInit {
   }
 
   // Permite obtener o capturar los valores de la cantidad de pasajeros ingresados de acuerdo al tipo
-  passengerSelection(adultNumber: string, childNumber: string, infantNumber: string) {
-    this.adultNumber = Number(adultNumber);
-    this.childNumber = Number(childNumber);
-    this.infantNumber = Number(infantNumber);
-    this.passengerNumber = this.adultNumber + this.childNumber + this.infantNumber;
-  }
+  // passengerSelection(adultNumber: string, childNumber: string, infantNumber: string) {
+  //   this.adultNumber = Number(adultNumber);
+  //   this.childNumber = Number(childNumber);
+  //   this.infantNumber = Number(infantNumber);
+  //   this.passengerNumber = this.adultNumber + this.childNumber + this.infantNumber;
+  // }
 
   // Capturar radio para tipo de fecha a mostrar
   selectedFlight() {
@@ -155,13 +155,13 @@ export class InfoViajeComponent implements OnInit {
   }
 
   // Método para validar la información del ingreso de la cantidad de pasajeros
-  validatePassengerFields() {
-    let adultNumber = (document.getElementById("numAdult") as HTMLInputElement).value;
-    let childNumber = (document.getElementById("numChild") as HTMLInputElement).value;
-    let infantNumber = (document.getElementById("numInfant") as HTMLInputElement).value;
+  // validatePassengerFields() {
+  //   let adultNumber = (document.getElementById("numAdult") as HTMLInputElement).value;
+  //   let childNumber = (document.getElementById("numChild") as HTMLInputElement).value;
+  //   let infantNumber = (document.getElementById("numInfant") as HTMLInputElement).value;
 
-    if (Number(adultNumber) && Number(childNumber) && Number(infantNumber)) {
-      this.passengerSelection(adultNumber, childNumber, infantNumber)
-    }
-  }
+  //   if (Number(adultNumber) && Number(childNumber) && Number(infantNumber)) {
+  //     this.passengerSelection(adultNumber, childNumber, infantNumber)
+  //   }
+  // }
 }
