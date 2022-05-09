@@ -41,3 +41,15 @@ label#text-label {
 .header {
     margin-bottom: 20px;
 }
+
+input.ng-valid.ng-touched {
+    border: 1px solid green;
+}
+
+input.ng-invalid.ng-touched {
+    border: 1px solid red;
+}
+
+#asterisco {
+    color: red;
+}
