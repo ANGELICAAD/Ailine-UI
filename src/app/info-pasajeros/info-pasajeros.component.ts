@@ -361,6 +361,7 @@ export class InfoPasajerosComponent implements OnInit {
     this.ShowReservations.emit({data:this.showReservations})
     this.IdReserve.emit({ data: this.idReserve })
     this.DepartureReturnFlight.emit({ data: this.departureReturnFlight })
+    this.reservationNumber = this.idReserve;
   }
 
   // Método para modificar el estado actual de la reserva, es decir, de estado pendiente a confirmado
